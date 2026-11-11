@@ -5,7 +5,7 @@ WebMCP library for ASP.NET Core and Blazor. Spec: `research/specs/agent-ready/we
 
 ## Commands
 
-- Build and test: `dotnet test Handrail.slnx`. JS runtime tests: `node --test src/Handrail.AspNetCore/runtime/`.
+- Build and test: `dotnet test Handrail.slnx`. JS runtime tests: `node --test src/Handrail.AspNetCore/runtime/webmcp.runtime.test.mjs`.
 - Box memory is tight: `MSBUILDDISABLENODEREUSE=1 DOTNET_CLI_USE_MSBUILD_SERVER=0 UseSharedCompilation=false`, and
   kill leftover `dotnet` processes afterwards. CI is the real gate.
 - Warnings are errors. Public API needs no XML docs (CS1591 is off) but say why in comments, not what.
