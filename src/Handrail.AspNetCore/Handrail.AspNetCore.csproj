@@ -4,7 +4,6 @@
     <PackageId>Handrail.AspNetCore</PackageId>
     <Description>ASP.NET Core integration for Handrail: confirmed invoke endpoint, tag helpers and the browser runtime for WebMCP tools.</Description>
     <PackageTags>webmcp;mcp;modelcontext;agents;aspnetcore;taghelper</PackageTags>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>true</IsPackable>
   </PropertyGroup>
   <ItemGroup>
