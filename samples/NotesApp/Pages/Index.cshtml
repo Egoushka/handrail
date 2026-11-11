@@ -1,0 +1,28 @@
+@page
+@inject NotesApp.INoteStore Notes
+@{
+    var signedIn = User.Identity?.IsAuthenticated == true;
+}
+<h1>Notes</h1>
+
+@if (signedIn)
+{
+    <form method="post" action="/logout"><button>Sign out</button></form>
+}
+else
+{
+    <form method="post" action="/login"><button>Sign in as the demo user</button></form>
+}
+
+@* Declarative WebMCP: a read-only search form an agent may fill and submit by itself. *@
+<form method="get" action="/search" webmcp-tool="find_notes_form" webmcp-description="Search the notes shown on this page by a word" webmcp-readonly="true" webmcp-autosubmit="true">
+  <input name="q" webmcp-param="Word to look for in titles and bodies" />
+  <button>Search</button>
+</form>
+
+<ul>
+@foreach (var note in Notes.All())
+{
+  <li>@note.Title: @note.Body</li>
+}
+</ul>
