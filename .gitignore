@@ -1,0 +1,10 @@
+bin/
+obj/
+*.user
+.vs/
+.idea/
+TestResults/
+node_modules/
+*.nupkg
+artifacts/
+.claude/worktrees/
