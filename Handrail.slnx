@@ -1,6 +1,8 @@
 <Solution>
   <Folder Name="/src/">
     <Project Path="src/Handrail/Handrail.csproj" />
+    <Project Path="src/Handrail.Generators/Handrail.Generators.csproj" />
+    <Project Path="src/Handrail.Analyzers/Handrail.Analyzers.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Handrail.Tests/Handrail.Tests.csproj" />

@@ -2,12 +2,18 @@
   <PropertyGroup>
     <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
     <PackageId>Handrail</PackageId>
-    <Description>Core of Handrail: attributes and descriptor model for exposing C# methods as WebMCP tools.</Description>
-    <PackageTags>webmcp;mcp;modelcontext;agents;aspnetcore</PackageTags>
+    <Description>Core of Handrail: attributes, descriptor model, source generator and analyzers for exposing C# methods as WebMCP tools.</Description>
+    <PackageTags>webmcp;mcp;modelcontext;agents;aspnetcore;source-generator;analyzers</PackageTags>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>true</IsPackable>
+    <!-- The generator and analyzers ship inside this package and are not runtime references. -->
+    <NoWarn>$(NoWarn);NU5128</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <ProjectReference Include="..\Handrail.Generators\Handrail.Generators.csproj" ReferenceOutputAssembly="false" PrivateAssets="all" />
+    <ProjectReference Include="..\Handrail.Analyzers\Handrail.Analyzers.csproj" ReferenceOutputAssembly="false" PrivateAssets="all" />
+    <None Include="..\Handrail.Generators\bin\$(Configuration)\netstandard2.0\Handrail.Generators.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="..\Handrail.Analyzers\bin\$(Configuration)\netstandard2.0\Handrail.Analyzers.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
   </ItemGroup>
 </Project>
