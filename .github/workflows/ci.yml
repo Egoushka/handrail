@@ -40,4 +40,4 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 24
-      - run: node --test src/Handrail.AspNetCore/runtime/
+      - run: node --test src/Handrail.AspNetCore/runtime/webmcp.runtime.test.mjs

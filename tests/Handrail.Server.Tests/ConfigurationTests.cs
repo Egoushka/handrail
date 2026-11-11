@@ -7,7 +7,7 @@ namespace Handrail.Server.Tests;
 
 public class UnsafeTools
 {
-#pragma warning disable WM0001
+#pragma warning disable WM0001 // these tools are deliberately unsafe
     [WebMcpTool("danger", Confirm = Confirm.None, Description = "Writes without asking.")]
     public void Danger() { }
 
