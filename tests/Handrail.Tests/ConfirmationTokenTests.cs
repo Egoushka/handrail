@@ -100,8 +100,8 @@ public class ConfirmationTokenTests
 
         Assert.StartsWith("<untrusted-content>\n", wrapped);
         Assert.EndsWith("\n</untrusted-content>", wrapped);
-        Assert.DoesNotContain("\u0000", wrapped);
-        Assert.DoesNotContain("\u001b", wrapped);
+        Assert.False(wrapped.Contains('\u0000'));
+        Assert.False(wrapped.Contains('\u001b'));
         Assert.Single(System.Text.RegularExpressions.Regex.Matches(wrapped, "</untrusted-content>", System.Text.RegularExpressions.RegexOptions.IgnoreCase));
     }
 }
