@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+    <PackageId>Handrail</PackageId>
+    <Description>Core of Handrail: attributes and descriptor model for exposing C# methods as WebMCP tools.</Description>
+    <PackageTags>webmcp;mcp;modelcontext;agents;aspnetcore</PackageTags>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>
