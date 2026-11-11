@@ -29,3 +29,15 @@ jobs:
       - run: dotnet build Handrail.slnx -c Release --no-restore
       - run: dotnet test Handrail.slnx -c Release --no-build
       - run: dotnet pack Handrail.slnx -c Release --no-build -o artifacts
+
+  runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+      - run: node --test src/Handrail.AspNetCore/runtime/webmcp.runtime.test.mjs

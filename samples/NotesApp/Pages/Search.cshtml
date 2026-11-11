@@ -1,0 +1,12 @@
+@page
+@inject NotesApp.INoteStore Notes
+@{
+    var q = Request.Query["q"].ToString();
+}
+<h1>Search</h1>
+<ul>
+@foreach (var note in Notes.All().Where(n => n.Title.Contains(q, StringComparison.OrdinalIgnoreCase) || n.Body.Contains(q, StringComparison.OrdinalIgnoreCase)))
+{
+  <li>@note.Title: @note.Body</li>
+}
+</ul>

@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+    <PackageId>Handrail.AspNetCore</PackageId>
+    <Description>ASP.NET Core integration for Handrail: confirmed invoke endpoint, tag helpers and the browser runtime for WebMCP tools.</Description>
+    <PackageTags>webmcp;mcp;modelcontext;agents;aspnetcore;taghelper</PackageTags>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <ProjectReference Include="..\Handrail\Handrail.csproj" />
+    <InternalsVisibleTo Include="Handrail.Server.Tests" />
+    <EmbeddedResource Include="runtime\webmcp.runtime.js" LogicalName="webmcp.runtime.js" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>
