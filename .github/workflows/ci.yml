@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v7
         with:
           persist-credentials: false
-      - uses: actions/setup-dotnet@v5
+      - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
             8.0.x
@@ -39,7 +39,7 @@ jobs:
       - uses: actions/checkout@v7
         with:
           persist-credentials: false
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
       - run: node --test src/Handrail.AspNetCore/runtime/webmcp.runtime.test.mjs
