@@ -18,4 +18,4 @@ WebMCP library for ASP.NET Core and Blazor. Spec: `research/specs/agent-ready/we
 - A security default needs a test that fails without it.
 - No time or effort estimates in docs.
 - One task, one branch, one PR; squash-merge; Conventional Commit titles.
-- Do not publish to NuGet; that is the owner's action.
+- Release: tag `vX.Y.Z[-suffix]` on main runs `release.yml` (NuGet trusted publishing, repo variable `NUGET_USER`). Policy setup in `docs/releasing.md`; the policy lives on nuget.org and needs the owner's login. Add a `## X.Y.Z` entry to CHANGELOG.md first.

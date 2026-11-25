@@ -1,0 +1,70 @@
+name: release
+
+# A tag v<version> publishes Handrail and Handrail.AspNetCore to nuget.org: v0.1.0-preview.1 publishes 0.1.0-preview.1.
+# The tag is the version. Publishing uses nuget.org trusted publishing (no stored key): the repository variable
+# NUGET_USER names the nuget.org account whose policy trusts this repository and this workflow file name.
+# Setup and the policy fields: docs/releasing.md.
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+      - name: Require the tag to be on main
+        run: |
+          git fetch --quiet --no-tags origin main
+          git merge-base --is-ancestor "$GITHUB_SHA" FETCH_HEAD || { echo "$GITHUB_REF_NAME is not on main" >&2; exit 1; }
+      - name: Read the version from the tag
+        id: version
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          version="${TAG#v}"
+          [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]] || { echo "$TAG is not a SemVer tag" >&2; exit 1; }
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      - name: Require a changelog entry
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          base="${VERSION%%-*}"
+          grep -q "^## $base\b" CHANGELOG.md || { echo "CHANGELOG.md has no '## $base' section" >&2; exit 1; }
+          awk -v v="## $base" '$0 ~ "^" v "( |$)" {f=1; next} f && /^## / {exit} f {print}' CHANGELOG.md > "$RUNNER_TEMP/notes.md"
+          grep -q '[^[:space:]]' "$RUNNER_TEMP/notes.md" || { echo "empty changelog section" >&2; exit 1; }
+      - name: Build, test, pack
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          dotnet build Handrail.slnx -c Release -p:Version="$VERSION"
+          dotnet test Handrail.slnx -c Release --no-build
+          dotnet pack Handrail.slnx -c Release --no-build -p:Version="$VERSION" -o "$RUNNER_TEMP/nupkg"
+      - uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1.2.0
+        id: nuget
+        with:
+          user: ${{ vars.NUGET_USER }}
+      - name: Push to NuGet
+        env:
+          NUGET_API_KEY: ${{ steps.nuget.outputs.NUGET_API_KEY }}
+        run: dotnet nuget push "$RUNNER_TEMP"/nupkg/*.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate
+      - name: Create the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+          PRERELEASE: ${{ contains(steps.version.outputs.version, '-') && '--prerelease' || '' }}
+        run: gh release create "$TAG" "$RUNNER_TEMP"/nupkg/*.nupkg --title "$TAG" --notes-file "$RUNNER_TEMP/notes.md" $PRERELEASE
