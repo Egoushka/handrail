@@ -8,7 +8,7 @@
   </PropertyGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <ProjectReference Include="..\Handrail\Handrail.csproj" />
+    <ProjectReference Include="..\Handrail\Handrail.csproj" PrivateAssets="none" />
     <InternalsVisibleTo Include="Handrail.Server.Tests" />
     <EmbeddedResource Include="runtime\webmcp.runtime.js" LogicalName="webmcp.runtime.js" />
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />
